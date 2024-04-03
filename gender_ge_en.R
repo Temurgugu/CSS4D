@@ -1,10 +1,10 @@
 rm(list=ls())    # clear the workspace
 
-
-#=== Temur Gugushvii === 
-# Author https://temurgugushvili.ge/
+# Temur Gugushvii
+# Author: https://temurgugushvili.ge/
 # Data source:
-############ CSS4D:gender ###########
+# Project: CSS4D
+# Topic: gender
 
 # activate packages
 
@@ -14,18 +14,18 @@ library(tidyverse)
 
 #import data
 
-StudentsSurvey <- readr::read_csv("data/survey_feedback.csv", show_col_types = FALSE)
+StudentsSurvey <- readr::read_csv("data/student_alumni_survey.csv", show_col_types = FALSE)
 
 
 #modify data for viz
 
 SurveyGender <- StudentsSurvey |>
-  select(Gender) |>
-  count(Gender)
+  dplyr::select(Gender) |>
+  dplyr::count(Gender)
 
 
 # Compute percentages
-SurveyGender$fraction <- SurveyGender$n / sum(SurveyGender$n)
+SurveyGender$fraction <- SurveyGender$n /sum(SurveyGender$n)
 
 # Compute the cumulative percentages (top of each rectangle)
 SurveyGender$ymax <- cumsum(SurveyGender$fraction)
@@ -39,8 +39,8 @@ SurveyGender$labelPosition <- (SurveyGender$ymax + SurveyGender$ymin) / 2
 # Compute a good label
 SurveyGender$label <- paste0(SurveyGender$Gender, "\n რაოდენობა: ", SurveyGender$n, " (", round(SurveyGender$fraction *100,1), "%)")
 
-# Make the plot
-Figure_Gender_1_ge <- ggplot(SurveyGender, aes(ymax=ymax, ymin=ymin, xmax=4, xmin=3, fill=Gender)) +
+# Make the viz
+Figure_1_gender_ge <- ggplot(SurveyGender, aes(ymax=ymax, ymin=ymin, xmax=4, xmin=3, fill=Gender)) +
   geom_rect() +
   geom_text(x=1.5, aes(y=labelPosition, label=label, color=Gender), size=4.5) + # x here controls label position (inner / outer)
   scale_fill_manual(values=c("#450369", "#964eed", "#0d31d1")) +
@@ -51,10 +51,10 @@ Figure_Gender_1_ge <- ggplot(SurveyGender, aes(ymax=ymax, ymin=ymin, xmax=4, xmi
   theme(legend.position = "none")
 
 
-Figure_Gender_1_ge
+Figure_1_gender_ge
 
-ggsave("visualisation/Figure_Gender_1_ge.png", 
-       Figure_Gender_1_ge,
+ggsave("visualisation/Figure_1_gender_ge.png", 
+       Figure_1_gender_ge,
        width =35, 
        height = 20, 
        units = "cm", 
@@ -90,7 +90,7 @@ SurveyGender_en$labelPosition <- (SurveyGender_en$ymax + SurveyGender_en$ymin) /
 SurveyGender_en$label <- paste0(SurveyGender_en$Gender_EN, "\n Number: ", SurveyGender_en$n, " (", round(SurveyGender_en$fraction *100,1), "%)")
 
 # Make the plot
-Figure_Gender_1_EN <- ggplot(SurveyGender_en, aes(ymax=ymax, ymin=ymin, xmax=4, xmin=3, fill=Gender_EN)) +
+Figure_1_gender_en <- ggplot(SurveyGender_en, aes(ymax=ymax, ymin=ymin, xmax=4, xmin=3, fill=Gender_EN)) +
   geom_rect() +
   geom_text(x=1.5, aes(y=labelPosition, label=label, color=Gender_EN), size=4.5) + # x here controls label position (inner / outer)
   scale_fill_manual(values=c("#450369", "#964eed", "#0d31d1")) +
@@ -101,10 +101,10 @@ Figure_Gender_1_EN <- ggplot(SurveyGender_en, aes(ymax=ymax, ymin=ymin, xmax=4, 
   theme(legend.position = "none")
 
 
-Figure_Gender_1_EN
+Figure_1_gender_en
 
-ggsave("visualisation/Figure_Gender_1_EN.png", 
-       Figure_Gender_1_EN,
+ggsave("visualisation/Figure_1_gender_en.png", 
+       Figure_1_gender_en,
        width =35, 
        height = 20, 
        units = "cm", 
